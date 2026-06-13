@@ -1,0 +1,22 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace InvoiceEngine.API.Database.Entities;
+
+public class InvoiceItem
+{
+    public int Id { get; set; }
+    public InvoiceItemTypeCode ItemTypeCode { get; set; }
+    public int InvoiceId { get; set; }
+
+    public int Quantity { get; set; }
+    public decimal Price { get; set; }
+    public decimal Amount { get; set; }
+
+
+    public Invoice Invoice { get; set; }
+    public List<InvoiceItemOrderDetail> ItemOrderDetails { get; set; }
+    public List<InvoiceItemTransportDetail> ItemTransportDetails { get; set; }
+    public List<InvoiceItemInsuranceDetail> ItemInsuranceDetails { get; set; }
+
+    public List<InvoiceItemObligation> ItemObligations { get; set; } = new();
+}

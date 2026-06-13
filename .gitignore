@@ -1,0 +1,28 @@
+# Build folders
+bin/
+obj/
+
+# Visual Studio privremeni fajlovi
+.vs/
+*.vsidx
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# IDE settings
+.vscode/
+.idea/
+
+# Paket menadžer
+*.nupkg
+packages/
+
+# Test rezultati
+TestResults/
+
+# Log fajlovi
+*.log
+
+# Cache fajlovi
+*.cache
