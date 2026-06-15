@@ -8,7 +8,4 @@ public record CreateInvoiceRequest(
     DateOnly TransactionEndDate,
     int ClientSellerId,
     int ClientBuyerId,
-    // Dictionary<InvoiceItemTypeCode, object>  Items,
-    SellGoodsInvoiceItemRequest? SellGoodsInvoiceItemRequest,
-    TransportInvoiceItemRequest? TransportInvoiceItemRequest,
-    InsuranceInvoiceItemRequest? InsuranceInvoiceItemRequest);
+    Dictionary<InvoiceItemTypeCode, CreateInvoiceItemRequest> Items);

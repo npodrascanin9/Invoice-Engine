@@ -7,47 +7,48 @@ public class FobIncotermRuleObligationStrategy :
         => IncotermRule.FOB;
 
 
-    private Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject from, InvoiceSubject to), decimal>> _map =
+    private Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject From, InvoiceSubject To), decimal>> _map =
         new()
         {
             {
                 InvoiceItemTypeCode.SellGoods,
                 new()
                 {
-                    { (from: InvoiceSubject.Buyer, to: InvoiceSubject.Seller), 100 },
-                    { (from: InvoiceSubject.Seller, to: InvoiceSubject.Buyer), 0 }
+                    { (From: InvoiceSubject.Buyer, To: InvoiceSubject.Seller), 100 },
+                    { (From: InvoiceSubject.Seller, To: InvoiceSubject.Buyer), 0 }
                 }
             },
             {
                 InvoiceItemTypeCode.Transport,
                 new()
                 {
-                    { (from: InvoiceSubject.Buyer, to: InvoiceSubject.Seller), 50 },
-                    { (from: InvoiceSubject.Seller, to: InvoiceSubject.Buyer), 50 }
+                    { (From: InvoiceSubject.Buyer, To: InvoiceSubject.Seller), 50 },
+                    { (From: InvoiceSubject.Seller, To: InvoiceSubject.Buyer), 50 }
                 }
             },
             {
                 InvoiceItemTypeCode.Insurance,
                 new()
                 {
-                    { (from: InvoiceSubject.Buyer, to: InvoiceSubject.Seller), 50 },
-                    { (from: InvoiceSubject.Seller, to: InvoiceSubject.Buyer), 50 }
+                    { (From: InvoiceSubject.Buyer, To: InvoiceSubject.Seller), 50 },
+                    { (From: InvoiceSubject.Seller, To: InvoiceSubject.Buyer), 50 }
                 }
             }
         };
 
-    public Dictionary<(InvoiceSubject from, InvoiceSubject to), decimal> ResolveIncotermObligation(
+    public Dictionary<(InvoiceSubject From, InvoiceSubject To), decimal> ResolveIncotermObligation(
         InvoiceItemTypeCode invoiceItemType, 
         decimal amount)
     {
         var pairs = _map[invoiceItemType];
 
-        var result = new Dictionary<(InvoiceSubject from, InvoiceSubject to), decimal>();
+        var result = new Dictionary<(InvoiceSubject From, InvoiceSubject To), decimal>();
 
         foreach (var pair in pairs)
         {
-            var percentage = pair.Value;
-            var owingAmount = PercentageCalculator.ApplyPercentage(amount, percentage);
+            var owingAmount = PercentageCalculator.ApplyPercentage(
+                amount, 
+                percentage: pair.Value);
             result[pair.Key] = owingAmount;
         }
 

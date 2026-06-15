@@ -9,6 +9,20 @@ internal sealed class CreateInvoiceCommandHandler(
         CreateInvoiceCommand command, 
         CancellationToken cancellationToken)
     {
+        if (!await context.Clients.AnyAsync(
+            x => x.Id == command.ClientSellerId))
+        {
+            return Result.Failure<CreateInvoiceResponse>(
+                InvoiceErrors.ClientSellerNotFound(command.ClientSellerId));
+        }
+
+        if (!await context.Clients.AnyAsync(
+            x => x.Id == command.ClientBuyerId))
+        {
+            return Result.Failure<CreateInvoiceResponse>(
+                InvoiceErrors.ClientBuyerNotFound(command.ClientBuyerId));
+        }
+
         Invoice invoiceEntity = new()
         {
             Id = default,
@@ -22,134 +36,45 @@ internal sealed class CreateInvoiceCommandHandler(
             UpdatedAt = DateTime.UtcNow
         };
 
-        invoiceEntity
-            .InvoiceClients
-            .AddRange(new List<InvoiceClient>()
-            {
-                new()
+        invoiceEntity.Items.AddRange(
+            command.Items
+                .Where(x => x.Value is not null && x.Value.Amount > 0)
+                .Select(x => new InvoiceItem()
                 {
-                    ClientId = command.ClientBuyerId,
-                    SubjectCode = InvoiceSubject.Buyer
-                },
-                new()
-                {
-                    ClientId = command.ClientSellerId,
-                    SubjectCode = InvoiceSubject.Seller
-                }
-            });
-
-        // invoiceEntity.Items = (if not null) Sells, transport, insurance...
-        if (command.SellGoodsInvoiceItemRequest is not null)
-        {
-            var order = await context
-                .Orders
-                .Include(x => x.Items)
-                .FirstOrDefaultAsync(
-                    x => x.Id == command.SellGoodsInvoiceItemRequest.OrderId,
-                    cancellationToken);
-
-            var price = order.Items.Sum(x => x.TotalAmount);
-            var quantity = 1;
-
-            invoiceEntity.Items.Add(new()
-            {
-                Id = 0,
-                Quantity = quantity,
-                Price = price,
-                Amount = price * quantity,
-                ItemTypeCode = InvoiceItemTypeCode.SellGoods,
-                ItemOrderDetails = new()
-                {
-                    new()
-                    {
-                        Id = 0,
-                        OrderId = order.Id
-                    }
-                }
-            });
-        }
-
-        if (command.TransportInvoiceItemRequest is not null)
-        {
-            var transportCompany = await context
-                .TransportCompanies
-                .FirstOrDefaultAsync(x => x.Id == command.TransportInvoiceItemRequest.TransportCompanyId);
-
-            var quantity = 1;
-            var price = command.TransportInvoiceItemRequest.Price;
-
-            invoiceEntity.Items.Add(new()
-            {
-                Id = 0,
-                Quantity = quantity,
-                Price = price,
-                Amount = price * quantity,
-                ItemTypeCode = InvoiceItemTypeCode.Transport,
-                ItemTransportDetails = new()
-                {
-                    new()
-                    {
-                        TransportCompanyId = transportCompany.Id,
-                        AddressFrom = command.TransportInvoiceItemRequest.AddressFrom,
-                        AddressTo = command.TransportInvoiceItemRequest.AddressTo
-                    }
-                }
-            });
-        }
-
-        if (command.InsuranceInvoiceItemRequest is not null)
-        {
-            var insuranceCompany = await context
-                .InsuranceCompanies
-                .FirstOrDefaultAsync(x => x.Id == command.InsuranceInvoiceItemRequest.InsuranceCompanyId);
-
-            var quantity = 1;
-            var price = command.InsuranceInvoiceItemRequest.Price;
-
-            invoiceEntity.Items.Add(new()
-            {
-                Id = 0,
-                Quantity = quantity,
-                Price = price,
-                Amount = price * quantity,
-                ItemTypeCode = InvoiceItemTypeCode.Insurance,
-                ItemInsuranceDetails = new()
-                {
-                    new()
-                    {
-                        InsuranceCompanyId = insuranceCompany.Id,
-                        ExpiresAt = command.InsuranceInvoiceItemRequest.ExpiresAt
-                    }
-                }
-            });
-        }
-
+                    Id = 0,
+                    ItemTypeCode = x.Key,
+                    Description = x.Value.Description,
+                    Amount = x.Value.Amount
+                }).ToList());
 
         foreach (var invoiceItem in invoiceEntity.Items)
-        {
-            var dictionary = obligationStrategyContext.ResolveIncotermObligation(
-                command.Incoterm,
-                invoiceItem.ItemTypeCode,
-                invoiceItem.Amount);
+            InitializeItem(command, invoiceItem);
 
-            var obligations = dictionary.Select(x => new InvoiceItemObligation
-            {
-                FromClientSubjectCode = x.Key.from,
-                ToClientSubjectCode = x.Key.to,
-                OwingAmount = x.Value
-            }).ToList();
-
-            if (obligations?.Any() ?? false)
-            {
-                invoiceItem.ItemObligations.AddRange(
-                    obligations);
-            }
-        }
-
-        await context.Invoices.AddAsync(invoiceEntity);
-        await context.SaveChangesAsync();
+        await context.Invoices.AddAsync(invoiceEntity, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return Result.Success<CreateInvoiceResponse>(
             new(invoiceEntity.Id));
+    }
+
+    private void InitializeItem(
+        CreateInvoiceCommand command, 
+        InvoiceItem invoiceItem)
+    {
+        var dictionary = obligationStrategyContext.ResolveIncotermObligation(
+            command.Incoterm,
+            invoiceItem.ItemTypeCode,
+            invoiceItem.Amount);
+
+        invoiceItem
+            .ItemObligations
+            .AddRange(
+                dictionary.Select(
+                    x => new InvoiceItemObligation
+                    {
+                        FromClientSubjectCode = x.Key.From,
+                        ToClientSubjectCode = x.Key.To,
+                        OwingAmount = x.Value
+                    }).ToList());
     }
 }

@@ -16,11 +16,9 @@ public class CreateInvoiceEndpoint :
                     request.ExpiresAt,
                     request.TransactionStartDate,
                     request.TransactionEndDate,
-                    request.ClientBuyerId,
                     request.ClientSellerId,
-                    request.SellGoodsInvoiceItemRequest,
-                    request.TransportInvoiceItemRequest,
-                    request.InsuranceInvoiceItemRequest);
+                    request.ClientBuyerId,
+                    request.Items);
 
                 var result = await sender.Send(command);
 

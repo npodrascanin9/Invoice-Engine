@@ -1,10 +1,8 @@
-﻿using InvoiceEngine.API.Features.Invoices.Strategies;
+﻿namespace InvoiceEngine.API.Features.Invoices.Shared;
 
-namespace InvoiceEngine.API.Extensions;
-
-public static class StrategyExtensions
+public static class InvoiceDependencyInjection
 {
-    public static IServiceCollection AddStrategies(
+    public static IServiceCollection RegisterInvoiceDependencies(
         this IServiceCollection services)
     {
         services.AddScoped<IIncotermRuleObligationStrategy, ExwIncotermRuleObligationStrategy>();

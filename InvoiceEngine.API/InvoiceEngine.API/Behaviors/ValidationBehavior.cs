@@ -1,11 +1,12 @@
 ﻿namespace InvoiceEngine.API.Behaviors;
 
-public sealed class ValidationBehavior<TRequest, TResponse>
-    (IEnumerable<IValidator<TRequest>> validators) :
+public sealed class ValidationBehavior<TRequest, TResponse>(
+    IEnumerable<IValidator<TRequest>> validators) :
     IPipelineBehavior<TRequest, TResponse>
     where TRequest : ICommand<TResponse>
 {
-    public async Task<TResponse> Handle(TRequest request,
+    public async Task<TResponse> Handle(
+        TRequest request,
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {

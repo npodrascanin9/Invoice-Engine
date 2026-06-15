@@ -1,6 +1,4 @@
-﻿using InvoiceEngine.API.Database;
-
-namespace InvoiceEngine.API.Extensions;
+﻿namespace InvoiceEngine.API.Extensions;
 
 public static class DatabaseExtensions
 {
@@ -8,9 +6,8 @@ public static class DatabaseExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>(
-            context => context.UseSqlServer(
-                configuration.GetConnectionString("DefaultDb")));
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultDb")));
 
         return services;
     }

@@ -19,20 +19,12 @@ public class InvoiceItemEntityConfiguration :
         builder.Property(x => x.InvoiceId)
             .IsRequired();
 
-        builder.Property(x => x.Quantity)
-            .IsRequired();
+        builder.Property(x => x.Description)
+            .IsRequired(false)
+            .HasMaxLength(250);
 
-        builder.Property(x => x.Price)
-            .HasColumnType("decimal(18,2)")
-            .IsRequired();
-
-        /*
         builder.Property(x => x.Amount)
-            .HasColumnType("decimal(18,2)")
-            .HasComputedColumnSql(
-                "[Quantity] * [Price]", 
-                stored: true);
-        */
+            .IsRequired();
 
         builder.HasMany(x => x.ItemOrderDetails)
             .WithOne(itemOrderDetail => itemOrderDetail.InvoiceItem)

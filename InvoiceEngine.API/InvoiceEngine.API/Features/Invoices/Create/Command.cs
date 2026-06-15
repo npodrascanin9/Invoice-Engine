@@ -8,7 +8,5 @@ public record CreateInvoiceCommand(
     DateOnly TransactionEndDate,
     int ClientSellerId,
     int ClientBuyerId,
-    SellGoodsInvoiceItemRequest? SellGoodsInvoiceItemRequest,
-    TransportInvoiceItemRequest? TransportInvoiceItemRequest,
-    InsuranceInvoiceItemRequest? InsuranceInvoiceItemRequest)
+    Dictionary<InvoiceItemTypeCode, CreateInvoiceItemRequest> Items)
     : ICommand<Result<CreateInvoiceResponse>>;

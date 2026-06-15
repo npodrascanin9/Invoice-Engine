@@ -2,7 +2,7 @@
 
 public interface IIncotermRuleObligationStrategyContext
 {
-    Dictionary<(InvoiceSubject from, InvoiceSubject to), decimal> ResolveIncotermObligation(
+    Dictionary<(InvoiceSubject From, InvoiceSubject To), decimal> ResolveIncotermObligation(
         IncotermRule incotermRule,
         InvoiceItemTypeCode invoiceItemType,
         decimal amount);
@@ -12,7 +12,7 @@ public class IncotermRuleObligationStrategyContext(
     IEnumerable<IIncotermRuleObligationStrategy> strategies) :
     IIncotermRuleObligationStrategyContext
 {
-    public Dictionary<(InvoiceSubject from, InvoiceSubject to), decimal> ResolveIncotermObligation(
+    public Dictionary<(InvoiceSubject From, InvoiceSubject To), decimal> ResolveIncotermObligation(
         IncotermRule incotermRule,
         InvoiceItemTypeCode invoiceItemType,
         decimal amount)
