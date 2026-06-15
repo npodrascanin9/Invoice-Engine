@@ -2,6 +2,14 @@
 
 public static class InvoiceErrors
 {
+    public static Error NotFound(
+        int id)
+    {
+        return new(
+            Code: "Invoices.NotFound",
+            Description: $"Invoice with Id='{id}' not found");
+    }
+
     public static Error ClientBuyerNotFound(
         int id)
     {

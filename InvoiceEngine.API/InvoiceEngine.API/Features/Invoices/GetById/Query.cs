@@ -1,6 +1,4 @@
 ﻿namespace InvoiceEngine.API.Features.Invoices.GetById;
 
-public class GetInvoiceByIdQuery
-{
-
-}
+public record GetInvoiceByIdQuery(
+    int Id) : IQuery<Result<GetInvoiceByIdResponse>>;

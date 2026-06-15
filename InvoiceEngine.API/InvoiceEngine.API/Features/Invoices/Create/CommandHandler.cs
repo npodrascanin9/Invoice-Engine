@@ -36,6 +36,21 @@ internal sealed class CreateInvoiceCommandHandler(
             UpdatedAt = DateTime.UtcNow
         };
 
+        invoiceEntity.InvoiceClients.AddRange(
+            new List<InvoiceClient>()
+            {
+                new()
+                {
+                    ClientId = command.ClientBuyerId,
+                    SubjectCode = InvoiceSubject.Buyer
+                },
+                new()
+                {
+                    ClientId = command.ClientSellerId,
+                    SubjectCode = InvoiceSubject.Seller
+                }
+            });
+
         invoiceEntity.Items.AddRange(
             command.Items
                 .Where(x => x.Value is not null && x.Value.Amount > 0)
