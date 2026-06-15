@@ -24,11 +24,11 @@ internal sealed class QueryHandler(
 
         var clients = invoice.InvoiceClients
             .ToDictionary(
-                ic => ic.SubjectCode,
-                ic => new ClientInvoiceDetailsResponse(
-                    ClientId: ic.ClientId,
-                    Name: ic.Client.Name,
-                    Items: query.MapItemsForClient(ic.SubjectCode, invoice.Items)));
+                invoiceClient => invoiceClient.SubjectCode,
+                invoiceClient => new ClientInvoiceDetailsResponse(
+                    ClientId: invoiceClient.ClientId,
+                    Name: invoiceClient.Client.Name,
+                    Items: query.MapItemsForClient(invoiceClient.SubjectCode, invoice.Items)));
 
         var response = new GetInvoiceByIdResponse(
             Id: invoice.Id,
