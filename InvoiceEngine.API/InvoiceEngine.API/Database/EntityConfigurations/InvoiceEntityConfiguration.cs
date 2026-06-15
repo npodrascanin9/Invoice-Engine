@@ -65,5 +65,11 @@ public class InvoiceEntityConfiguration :
             .HasForeignKey(invoiceClient => invoiceClient.InvoiceId)
             .HasConstraintName("FK_InvoiceClients_InvoiceId")
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.CustomIncotermObligations)
+            .WithOne(customObligation => customObligation.Invoice)
+            .HasForeignKey(customObligation => customObligation.InvoiceId)
+            .HasConstraintName("FK_InvoiceCustomIncotermObligations_InvoiceId")
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

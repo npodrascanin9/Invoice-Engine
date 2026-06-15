@@ -8,6 +8,8 @@ public static class InvoiceDependencyInjection
         services.AddScoped<IIncotermRuleObligationStrategy, ExwIncotermRuleObligationStrategy>();
         services.AddScoped<IIncotermRuleObligationStrategy, CifIncotermRuleObligationStrategy>();
         services.AddScoped<IIncotermRuleObligationStrategy, FobIncotermRuleObligationStrategy>();
+        services.AddScoped<IIncotermRuleObligationStrategy, CustomIncotermRuleObligationStrategy>();
+
         services.AddScoped<IIncotermRuleObligationStrategyContext, IncotermRuleObligationStrategyContext>();
 
         return services;

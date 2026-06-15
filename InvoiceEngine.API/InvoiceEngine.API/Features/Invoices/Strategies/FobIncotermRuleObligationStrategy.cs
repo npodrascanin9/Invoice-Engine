@@ -38,7 +38,8 @@ public class FobIncotermRuleObligationStrategy :
 
     public Dictionary<(InvoiceSubject From, InvoiceSubject To), decimal> ResolveIncotermObligation(
         InvoiceItemTypeCode invoiceItemType, 
-        decimal amount)
+        decimal amount,
+        Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject From, InvoiceSubject to), decimal>> customIncotermRules = null)
     {
         var pairs = _map[invoiceItemType];
 

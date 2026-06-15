@@ -5,7 +5,8 @@ public interface IIncotermRuleObligationStrategyContext
     Dictionary<(InvoiceSubject From, InvoiceSubject To), decimal> ResolveIncotermObligation(
         IncotermRule incotermRule,
         InvoiceItemTypeCode invoiceItemType,
-        decimal amount);
+        decimal amount,
+        Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject From, InvoiceSubject to), decimal>> customIncotermRules = null);
 }
 
 public class IncotermRuleObligationStrategyContext(
@@ -15,7 +16,8 @@ public class IncotermRuleObligationStrategyContext(
     public Dictionary<(InvoiceSubject From, InvoiceSubject To), decimal> ResolveIncotermObligation(
         IncotermRule incotermRule,
         InvoiceItemTypeCode invoiceItemType,
-        decimal amount)
+        decimal amount,
+        Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject From, InvoiceSubject to), decimal>> customIncotermRules = null)
     {
         var dictionary = strategies.ToDictionary(
             key => key.IncotermRule,
@@ -26,6 +28,7 @@ public class IncotermRuleObligationStrategyContext(
 
         return strategy.ResolveIncotermObligation(
             invoiceItemType, 
-            amount);
+            amount,
+            customIncotermRules);
     }
 }

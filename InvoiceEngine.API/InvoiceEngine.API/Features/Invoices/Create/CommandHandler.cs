@@ -36,6 +36,23 @@ internal sealed class CreateInvoiceCommandHandler(
             UpdatedAt = DateTime.UtcNow
         };
 
+        if (command.CanHaveCustomIncotermObligations())
+        {
+            var customObligations = command
+                .CustomIncotermRules
+                .SelectMany(outerPairs =>
+                    outerPairs.Value.Select(
+                        innerPairs => new InvoiceCustomIncotermObligation
+                        {
+                            ItemTypeCode = outerPairs.Key,            
+                            FromSubjectCode = innerPairs.Key.From,    
+                            ToSubjectCode = innerPairs.Key.To,        
+                            PercentageAmount = innerPairs.Value
+                        })).ToList();
+
+            invoiceEntity.CustomIncotermObligations.AddRange(customObligations);
+        }
+
         invoiceEntity.InvoiceClients.AddRange(
             new List<InvoiceClient>()
             {

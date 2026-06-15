@@ -21,6 +21,16 @@ public class CreateInvoiceCommandValidator :
         RuleFor(x => x.ClientSellerId)
             .GreaterThan(0).WithMessage("ClientSellerId must be greater than 0");
 
+        RuleFor(x => x.CustomIncotermRules)
+            .NotEmpty()
+            .When(x => x.Incoterm == IncotermRule.Custom)
+            .WithMessage("CustomIncotermDetails must be provided when using a Custom Incoterm.");
+
+        RuleFor(x => x.CustomIncotermRules)
+           .Null()
+           .When(x => x.Incoterm != IncotermRule.Custom)
+           .WithMessage("CustomIncotermDetails should not be provided for standard Incoterms.");
+
         RuleFor(x => x.Items)
             .NotEmpty().WithMessage("At least one item is required");
 

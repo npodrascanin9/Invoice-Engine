@@ -14,6 +14,7 @@ public class ApplicationDbContext(
     public DbSet<InvoiceItemTransportDetail> InvoiceItemTransportDetails { get; set; }
     public DbSet<InvoiceItemInsuranceDetail> InvoiceItemInsuranceDetails { get; set; }
     public DbSet<InvoiceItemObligation> InvoiceItemObligations { get; set; }
+    public DbSet<InvoiceCustomIncotermObligation> InvoiceCustomIncotermObligations { get; set; }
     public DbSet<InvoiceItemType> InvoiceItemTypes { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }

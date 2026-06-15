@@ -17,4 +17,5 @@ public class Invoice
 
     public List<InvoiceItem> Items { get; set; } = new();
     public List<InvoiceClient> InvoiceClients { get; set; } = new();
+    public List<InvoiceCustomIncotermObligation> CustomIncotermObligations { get; set; } = new();
 }
