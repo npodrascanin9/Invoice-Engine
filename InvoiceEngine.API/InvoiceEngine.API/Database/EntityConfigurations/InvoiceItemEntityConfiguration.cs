@@ -26,24 +26,6 @@ public class InvoiceItemEntityConfiguration :
         builder.Property(x => x.Amount)
             .IsRequired();
 
-        builder.HasMany(x => x.ItemOrderDetails)
-            .WithOne(itemOrderDetail => itemOrderDetail.InvoiceItem)
-            .HasForeignKey(itemOrderDetail => itemOrderDetail.InvoiceItemId)
-            .HasConstraintName("FK_InvoiceItemOrderDetails_InvoiceItemId")
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(x => x.ItemTransportDetails)
-            .WithOne(itemTransportDetail => itemTransportDetail.InvoiceItem)
-            .HasForeignKey(itemTransportDetail => itemTransportDetail.InvoiceItemId)
-            .HasConstraintName("FK_InvoiceItemTransportDetails_InvoiceItemId")
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(x => x.ItemInsuranceDetails)
-            .WithOne(itemInsuranceDetail => itemInsuranceDetail.InvoiceItem)
-            .HasForeignKey(itemInsuranceDetail => itemInsuranceDetail.InvoiceItemId)
-            .HasConstraintName("FK_InvoiceItemInsuranceDetails_InvoiceItemId")
-            .OnDelete(DeleteBehavior.Cascade);
-
         builder.HasMany(x => x.ItemObligations)
             .WithOne(obligation => obligation.InvoiceItem)
             .HasForeignKey(obligation => obligation.InvoiceItemId)

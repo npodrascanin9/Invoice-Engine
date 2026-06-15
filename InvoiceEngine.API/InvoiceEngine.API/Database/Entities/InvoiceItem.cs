@@ -12,9 +12,5 @@ public class InvoiceItem
 
 
     public Invoice Invoice { get; set; }
-    public List<InvoiceItemOrderDetail> ItemOrderDetails { get; set; }
-    public List<InvoiceItemTransportDetail> ItemTransportDetails { get; set; }
-    public List<InvoiceItemInsuranceDetail> ItemInsuranceDetails { get; set; }
-
     public List<InvoiceItemObligation> ItemObligations { get; set; } = new();
 }
