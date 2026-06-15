@@ -28,9 +28,7 @@ internal sealed class QueryHandler(
                 ic => new ClientInvoiceDetailsResponse(
                     ClientId: ic.ClientId,
                     Name: ic.Client.Name,
-                    Items: MapItemsForClient(
-                        ic.SubjectCode, 
-                        invoice.Items)));
+                    Items: query.MapItemsForClient(ic.SubjectCode, invoice.Items)));
 
         var response = new GetInvoiceByIdResponse(
             Id: invoice.Id,
@@ -49,22 +47,4 @@ internal sealed class QueryHandler(
 
         return Result.Success(response);
     }
-
-    private List<InvoiceDetailItemResponse> MapItemsForClient(
-        InvoiceSubject subject, 
-        IEnumerable<InvoiceItem> items)
-    {
-        return items
-            .SelectMany(item => item.ItemObligations
-                .Where(o => o.FromClientSubjectCode == subject)
-                .Select(o => new InvoiceDetailItemResponse(
-                    Id: item.Id,
-                    ItemTypeCode: item.ItemTypeCode,
-                    ItemType: item.ItemTypeCode.ToString(),
-                    Amount: o.OwingAmount,
-                    PaysTo: o.ToClientSubjectCode.ToString()
-                ))
-            ).ToList();
-    }
-
 }
