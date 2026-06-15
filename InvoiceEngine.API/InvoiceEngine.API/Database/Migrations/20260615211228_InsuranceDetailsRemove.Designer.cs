@@ -4,6 +4,7 @@ using InvoiceEngine.API.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceEngine.API.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260615211228_InsuranceDetailsRemove")]
+    partial class InsuranceDetailsRemove
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,6 +231,58 @@ namespace InvoiceEngine.API.Database.Migrations
                         });
                 });
 
+            modelBuilder.Entity("InvoiceEngine.API.Database.Entities.InvoiceItemOrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("InvoiceItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceItemId");
+
+                    b.ToTable("InvoiceItemOrderDetails", (string)null);
+                });
+
+            modelBuilder.Entity("InvoiceEngine.API.Database.Entities.InvoiceItemTransportDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddressFrom")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("AddressTo")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("InvoiceItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TransportCompanyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceItemId");
+
+                    b.ToTable("InvoiceItemTransportDetails", (string)null);
+                });
+
             modelBuilder.Entity("InvoiceEngine.API.Database.Entities.InvoiceItemType", b =>
                 {
                     b.Property<int>("Id")
@@ -308,6 +363,24 @@ namespace InvoiceEngine.API.Database.Migrations
                     b.Navigation("InvoiceItem");
                 });
 
+            modelBuilder.Entity("InvoiceEngine.API.Database.Entities.InvoiceItemOrderDetail", b =>
+                {
+                    b.HasOne("InvoiceEngine.API.Database.Entities.InvoiceItem", null)
+                        .WithMany("ItemOrderDetails")
+                        .HasForeignKey("InvoiceItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("InvoiceEngine.API.Database.Entities.InvoiceItemTransportDetail", b =>
+                {
+                    b.HasOne("InvoiceEngine.API.Database.Entities.InvoiceItem", null)
+                        .WithMany("ItemTransportDetails")
+                        .HasForeignKey("InvoiceItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("InvoiceEngine.API.Database.Entities.Client", b =>
                 {
                     b.Navigation("InvoiceClients");
@@ -325,6 +398,10 @@ namespace InvoiceEngine.API.Database.Migrations
             modelBuilder.Entity("InvoiceEngine.API.Database.Entities.InvoiceItem", b =>
                 {
                     b.Navigation("ItemObligations");
+
+                    b.Navigation("ItemOrderDetails");
+
+                    b.Navigation("ItemTransportDetails");
                 });
 #pragma warning restore 612, 618
         }
