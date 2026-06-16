@@ -1,6 +1,6 @@
 ﻿namespace InvoiceEngine.API.Features.Invoices.GetById;
 
-internal sealed class QueryHandler(
+internal sealed class GetInvoiceByIdQueryHandler(
     ApplicationDbContext context) :
     IQueryHandler<GetInvoiceByIdQuery, Result<GetInvoiceByIdResponse>>
 {
