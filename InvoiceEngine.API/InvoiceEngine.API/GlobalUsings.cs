@@ -12,7 +12,6 @@ global using InvoiceEngine.API.Shared.Helpers;
 
 global using InvoiceEngine.API.Features.Shared;
 
-global using InvoiceEngine.API.Features.Invoices.Create;
 global using InvoiceEngine.API.Features.Invoices.Strategies;
 global using InvoiceEngine.API.Features.Invoices.Shared;
 

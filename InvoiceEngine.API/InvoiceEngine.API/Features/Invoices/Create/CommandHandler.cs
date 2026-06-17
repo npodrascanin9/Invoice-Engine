@@ -10,14 +10,16 @@ internal sealed class CreateInvoiceCommandHandler(
         CancellationToken cancellationToken)
     {
         if (!await context.Clients.AnyAsync(
-            x => x.Id == command.ClientSellerId))
+            x => x.Id == command.ClientSellerId, 
+            cancellationToken))
         {
             return Result.Failure<CreateInvoiceResponse>(
                 InvoiceErrors.ClientSellerNotFound(command.ClientSellerId));
         }
 
         if (!await context.Clients.AnyAsync(
-            x => x.Id == command.ClientBuyerId))
+            x => x.Id == command.ClientBuyerId, 
+            cancellationToken))
         {
             return Result.Failure<CreateInvoiceResponse>(
                 InvoiceErrors.ClientBuyerNotFound(command.ClientBuyerId));
