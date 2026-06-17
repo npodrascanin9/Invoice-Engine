@@ -1,6 +1,6 @@
 ﻿namespace InvoiceEngine.API.Features.Invoices.GetById;
 
-public class Endpoint :
+public class GetInvoiceByIdEndpoint :
     ICarterModule
 {
     public void AddRoutes(
