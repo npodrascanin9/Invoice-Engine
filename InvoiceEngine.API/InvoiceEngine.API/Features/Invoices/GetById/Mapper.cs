@@ -8,15 +8,16 @@ public static class GetInvoiceByIdMapper
         IEnumerable<InvoiceItem> items)
     {
         return items
-            .SelectMany(item => item.ItemObligations
-                .Where(o => o.FromClientSubjectCode == subject)
-                .Select(o => new InvoiceDetailItemResponse(
-                    Id: item.Id,
-                    ItemTypeCode: item.ItemTypeCode,
-                    ItemType: item.ItemTypeCode.ToString(),
-                    Amount: o.OwingAmount,
-                    PaysTo: o.ToClientSubjectCode.ToString()
-                ))
+            .SelectMany(
+                item => item.ItemObligations
+                    .Where(o => o.FromClientSubjectCode == subject)
+                    .Select(o => new InvoiceDetailItemResponse(
+                        Id: item.Id,
+                        ItemTypeCode: item.ItemTypeCode,
+                        ItemType: item.ItemTypeCode.ToString(),
+                        Amount: o.OwingAmount,
+                        PaysTo: o.ToClientSubjectCode.ToString()
+                    ))
             ).ToList();
     }
 }
