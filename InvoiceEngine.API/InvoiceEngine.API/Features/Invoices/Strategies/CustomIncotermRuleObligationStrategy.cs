@@ -19,6 +19,8 @@ public class CustomIncotermRuleObligationStrategy :
                 $"CustomIncotermRules doesn't contain details for InvoiceItemType='{invoiceItemType}'");
         }
 
-        return customIncotermRules[invoiceItemType];
+        return customIncotermRules[invoiceItemType].ToDictionary(
+            kvp => kvp.Key,
+            kvp => PercentageCalculator.ApplyPercentage(amount, kvp.Value));
     }
 }
