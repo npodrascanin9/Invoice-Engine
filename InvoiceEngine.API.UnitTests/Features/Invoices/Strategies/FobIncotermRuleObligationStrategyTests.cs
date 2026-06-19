@@ -1,12 +1,11 @@
 ﻿namespace InvoiceEngine.API.UnitTests.Features.Invoices.Strategies;
 
-internal class FobIncotermRuleObligationStrategyTests :
-    BaseUnitTest
+public class FobIncotermRuleObligationStrategyTests
 {
-    [Test]
-    [TestCase(InvoiceItemTypeCode.SellGoods, 1500, 1500, 0)]
-    [TestCase(InvoiceItemTypeCode.Transport, 500, 250, 250)]
-    [TestCase(InvoiceItemTypeCode.Insurance, 300, 150, 150)]
+    [Theory]
+    [InlineData(InvoiceItemTypeCode.SellGoods, 1500, 1500, 0)]
+    [InlineData(InvoiceItemTypeCode.Transport, 500, 250, 250)]
+    [InlineData(InvoiceItemTypeCode.Insurance, 300, 150, 150)]
     public void ShouldReturnExpectedResult(
         InvoiceItemTypeCode itemTypeCode,
         decimal amount,

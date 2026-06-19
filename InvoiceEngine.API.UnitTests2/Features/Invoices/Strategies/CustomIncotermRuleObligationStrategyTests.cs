@@ -1,11 +1,12 @@
 ﻿namespace InvoiceEngine.API.UnitTests.Features.Invoices.Strategies;
 
-public class CustomIncotermRuleObligationStrategyTests
+public class CustomIncotermRuleObligationStrategyTests :
+    BaseUnitTest
 {
-    [Theory]
-    [InlineData(InvoiceItemTypeCode.SellGoods, 25, 75, 1000, 250, 750)]
-    [InlineData(InvoiceItemTypeCode.Transport, 50, 50, 1000, 500, 500)]
-    [InlineData(InvoiceItemTypeCode.SellGoods, 40, 60, 1000, 400, 600)]
+    [Test]
+    [TestCase(InvoiceItemTypeCode.SellGoods, 25, 75, 1000, 250, 750)]
+    [TestCase(InvoiceItemTypeCode.Transport, 50, 50, 1000, 500, 500)]
+    [TestCase(InvoiceItemTypeCode.SellGoods, 40, 60, 1000, 400, 600)]
     public void ShouldReturnExpectedResult(
         InvoiceItemTypeCode itemTypeCode,
         decimal buyerToSellerPercentage,
@@ -27,7 +28,7 @@ public class CustomIncotermRuleObligationStrategyTests
 
         // Act
         var result = strategy.ResolveIncotermObligation(
-            itemTypeCode,
+            itemTypeCode, 
             amount,
             customRules);
 
@@ -47,10 +48,10 @@ public class CustomIncotermRuleObligationStrategyTests
                 .Be(expectedSellerToBuyerAmount);
     }
 
-    [Theory]
-    [InlineData(InvoiceItemTypeCode.SellGoods, 50)]
-    [InlineData(InvoiceItemTypeCode.Transport, 20)]
-    [InlineData(InvoiceItemTypeCode.Insurance, 100)]
+    [Test]
+    [TestCase(InvoiceItemTypeCode.SellGoods, 50)]
+    [TestCase(InvoiceItemTypeCode.Transport, 20)]
+    [TestCase(InvoiceItemTypeCode.Insurance, 100)]
     public void ShouldThrowNullException(
         InvoiceItemTypeCode itemTypeCode,
         decimal amount)

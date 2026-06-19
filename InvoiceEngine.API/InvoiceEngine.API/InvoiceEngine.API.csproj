@@ -20,4 +20,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="InvoiceEngine.API.IntegrationTests" />
+		<InternalsVisibleTo Include="InvoiceEngine.API.UnitTests" />
+	</ItemGroup>
+
 </Project>

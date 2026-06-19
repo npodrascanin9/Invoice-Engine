@@ -1,12 +1,12 @@
 ﻿namespace InvoiceEngine.API.UnitTests.Shared.Helpers;
 
-public class PercentageCalculatorTests
+public class PercentageCalculatorTests : BaseUnitTest
 {
-    [Theory]
-    [InlineData(1000, 25, 250)]
-    [InlineData(1000, 50, 500)]
-    [InlineData(1000, 100, 1000)]
-    [InlineData(1000, 0, 0)]
+    [Test]
+    [TestCase(1000, 25, 250)]
+    [TestCase(1000, 50, 500)]
+    [TestCase(1000, 100, 1000)]
+    [TestCase(1000, 0, 0)]
     public void ShouldReturnExpectedResult(
         decimal amount,
         decimal percentage,

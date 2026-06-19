@@ -1,10 +1,11 @@
 ﻿namespace InvoiceEngine.API.UnitTests.Features.Invoices.Create;
 
-public class CreateInvoiceCommandValidatorTests
+public class CreateInvoiceCommandValidatorTests : 
+    BaseUnitTest
 {
     private readonly CreateInvoiceCommandValidator _validator = new();
 
-    [Fact]
+    [Test]
     public void ShouldFail_WhenExpiresAtIsBeforeIssuedAt()
     {
         // Arrange
@@ -19,7 +20,7 @@ public class CreateInvoiceCommandValidatorTests
             Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemRequest>
             {
                 [InvoiceItemTypeCode.SellGoods] = new CreateInvoiceItemRequest(
-                    Amount: 100,
+                    Amount: 100, 
                     Description: "Valid")
             }
         );
@@ -34,7 +35,7 @@ public class CreateInvoiceCommandValidatorTests
             .Contain(e => e.ErrorMessage == "ExpiresAt must be greater than IssuedAt");
     }
 
-    [Fact]
+    [Test]
     public void ShouldFail_WhenBuyerEqualsSeller()
     {
         // Arrange
@@ -49,7 +50,7 @@ public class CreateInvoiceCommandValidatorTests
             Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemRequest>
             {
                 [InvoiceItemTypeCode.SellGoods] = new CreateInvoiceItemRequest(
-                    Amount: 100,
+                    Amount: 100, 
                     Description: "Valid")
             }
         );
@@ -64,7 +65,7 @@ public class CreateInvoiceCommandValidatorTests
             .Contain(e => e.ErrorMessage == "Buyer and Seller must be different clients");
     }
 
-    [Fact]
+    [Test]
     public void ShouldFail_WhenCustomIncotermWithoutRules()
     {
         // Arrange
@@ -79,7 +80,7 @@ public class CreateInvoiceCommandValidatorTests
             Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemRequest>
             {
                 [InvoiceItemTypeCode.SellGoods] = new CreateInvoiceItemRequest(
-                    Amount: 100,
+                    Amount: 100, 
                     Description: "Valid")
             },
             CustomIncotermRules: null
@@ -95,7 +96,7 @@ public class CreateInvoiceCommandValidatorTests
             .Contain(e => e.ErrorMessage == "CustomIncotermDetails must be provided when using a Custom Incoterm.");
     }
 
-    [Fact]
+    [Test]
     public void ShouldPass_WhenAllFieldsAreValid()
     {
         // Arrange
@@ -110,7 +111,7 @@ public class CreateInvoiceCommandValidatorTests
             Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemRequest>
             {
                 [InvoiceItemTypeCode.SellGoods] = new CreateInvoiceItemRequest(
-                    Amount: 100,
+                    Amount: 100, 
                     Description: "Valid item")
             },
             CustomIncotermRules: null

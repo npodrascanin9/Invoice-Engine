@@ -1,11 +1,12 @@
 ﻿namespace InvoiceEngine.API.UnitTests.Features.Invoices.Strategies;
 
-public class ExwIncotermRuleObligationStrategyTests
+internal class FobIncotermRuleObligationStrategyTests :
+    BaseUnitTest
 {
-    [Theory]
-    [InlineData(InvoiceItemTypeCode.SellGoods, 1500, 1500, 0)]
-    [InlineData(InvoiceItemTypeCode.Transport, 800, 800, 0)]
-    [InlineData(InvoiceItemTypeCode.Insurance, 455, 455, 0)]
+    [Test]
+    [TestCase(InvoiceItemTypeCode.SellGoods, 1500, 1500, 0)]
+    [TestCase(InvoiceItemTypeCode.Transport, 500, 250, 250)]
+    [TestCase(InvoiceItemTypeCode.Insurance, 300, 150, 150)]
     public void ShouldReturnExpectedResult(
         InvoiceItemTypeCode itemTypeCode,
         decimal amount,
@@ -13,7 +14,7 @@ public class ExwIncotermRuleObligationStrategyTests
         decimal expectedSellerToBuyerAmount)
     {
         // Arrange
-        ExwIncotermRuleObligationStrategy strategy = new();
+        FobIncotermRuleObligationStrategy strategy = new();
 
         // Act
         var result = strategy.ResolveIncotermObligation(
@@ -22,7 +23,7 @@ public class ExwIncotermRuleObligationStrategyTests
 
         // Assert
         strategy.IncotermRule.Should()
-            .Be(IncotermRule.EXW);
+            .Be(IncotermRule.FOB);
         result.Should()
             .NotBeNullOrEmpty()
             .And.HaveCount(2);

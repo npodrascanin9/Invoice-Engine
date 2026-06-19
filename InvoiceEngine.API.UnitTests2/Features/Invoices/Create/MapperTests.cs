@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Routing;
+﻿namespace InvoiceEngine.API.UnitTests.Features.Invoices.Create;
 
-namespace InvoiceEngine.API.UnitTests.Features.Invoices.Create;
-
-public class CreateInvoiceMapperTests
+public class CreateInvoiceMapperTests : 
+    BaseUnitTest
 {
-    [Fact]
+    [Test]
     public void CanHaveCustomIncotermObligations_ShouldReturnTrue_WhenCustomIncotermAndRulesProvided()
     {
         // Arrange
@@ -33,13 +32,13 @@ public class CreateInvoiceMapperTests
 
         // Act
         var result = command.CanHaveCustomIncotermObligations();
-
+        
         // Assert
         result.Should()
             .BeTrue();
     }
 
-    [Fact]
+    [Test]
     public void CanHaveCustomIncotermObligations_ShouldReturnFalse_WhenCustomIncotermWithoutRules()
     {
         // Arrange
@@ -62,13 +61,13 @@ public class CreateInvoiceMapperTests
 
         // Act
         var result = command.CanHaveCustomIncotermObligations();
-
+        
         // Assert
         result.Should()
             .BeFalse();
     }
 
-    [Fact]
+    [Test]
     public void CanHaveCustomIncotermObligations_ShouldReturnFalse_WhenStandardIncotermEvenWithRules()
     {
         // Arrange
@@ -83,7 +82,7 @@ public class CreateInvoiceMapperTests
             Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemRequest>
             {
                 [InvoiceItemTypeCode.SellGoods] = new CreateInvoiceItemRequest(
-                    Amount: 100,
+                    Amount: 100, 
                     Description: "Valid")
             },
             CustomIncotermRules: new Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject, InvoiceSubject), decimal>>
@@ -97,7 +96,7 @@ public class CreateInvoiceMapperTests
 
         // Act
         var result = command.CanHaveCustomIncotermObligations();
-
+        
         // Assert
         result.Should()
             .BeFalse();

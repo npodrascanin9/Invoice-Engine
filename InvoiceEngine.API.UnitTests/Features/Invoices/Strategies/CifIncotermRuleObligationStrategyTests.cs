@@ -1,12 +1,11 @@
 ﻿namespace InvoiceEngine.API.UnitTests.Features.Invoices.Strategies;
 
-internal class CifIncotermRuleObligationStrategyTests :
-    BaseUnitTest
+public class CifIncotermRuleObligationStrategyTests
 {
-    [Test]
-    [TestCase(InvoiceItemTypeCode.SellGoods, 1500, 1500, 0)]
-    [TestCase(InvoiceItemTypeCode.Transport, 650, 0, 650)]
-    [TestCase(InvoiceItemTypeCode.Insurance, 300, 0, 300)]
+    [Theory]
+    [InlineData(InvoiceItemTypeCode.SellGoods, 1500, 1500, 0)]
+    [InlineData(InvoiceItemTypeCode.Transport, 650, 0, 650)]
+    [InlineData(InvoiceItemTypeCode.Insurance, 300, 0, 300)]
     public void ShouldReturnExpectedResult(
         InvoiceItemTypeCode itemTypeCode,
         decimal amount,
@@ -37,3 +36,4 @@ internal class CifIncotermRuleObligationStrategyTests :
                 .Be(expectedSellerToBuyerAmount);
     }
 }
+

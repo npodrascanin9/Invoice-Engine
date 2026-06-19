@@ -1,11 +1,12 @@
 ﻿namespace InvoiceEngine.API.UnitTests.Features.Invoices.Strategies;
 
-public class ExwIncotermRuleObligationStrategyTests
+public class ExwIncotermRuleObligationStrategyTests :
+    BaseUnitTest
 {
-    [Theory]
-    [InlineData(InvoiceItemTypeCode.SellGoods, 1500, 1500, 0)]
-    [InlineData(InvoiceItemTypeCode.Transport, 800, 800, 0)]
-    [InlineData(InvoiceItemTypeCode.Insurance, 455, 455, 0)]
+    [Test]
+    [TestCase(InvoiceItemTypeCode.SellGoods, 1500, 1500, 0)]
+    [TestCase(InvoiceItemTypeCode.Transport, 800, 800, 0)]
+    [TestCase(InvoiceItemTypeCode.Insurance, 455, 455, 0)]
     public void ShouldReturnExpectedResult(
         InvoiceItemTypeCode itemTypeCode,
         decimal amount,

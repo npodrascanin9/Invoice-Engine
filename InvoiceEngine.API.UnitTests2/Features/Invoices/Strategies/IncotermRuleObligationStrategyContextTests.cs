@@ -1,21 +1,22 @@
 ﻿namespace InvoiceEngine.API.UnitTests.Features.Invoices.Strategies;
 
-public class IncotermRuleObligationStrategyContextTests
+public class IncotermRuleObligationStrategyContextTests :
+    BaseUnitTest
 {
-    [Fact]
+    [Test]
     public void ShouldDelegateToCorrectStrategy()
     {
         // Arrange
         var fakeStrategy = new Mock<IIncotermRuleObligationStrategy>();
-        const decimal amount = 150m;
+        decimal amount = 150m;
         fakeStrategy
             .Setup(s => s.IncotermRule)
             .Returns(IncotermRule.CIF);
-
+        
         fakeStrategy
             .Setup(s => s.ResolveIncotermObligation(
-                InvoiceItemTypeCode.SellGoods,
-                100m,
+                InvoiceItemTypeCode.SellGoods, 
+                100m, 
                 null)
             ).Returns(new Dictionary<(InvoiceSubject, InvoiceSubject), decimal>
             {
@@ -23,15 +24,15 @@ public class IncotermRuleObligationStrategyContextTests
             });
 
         var context = new IncotermRuleObligationStrategyContext(
-            new[]
-            {
-                fakeStrategy.Object
+            new[] 
+            { 
+                fakeStrategy.Object 
             });
 
         // Act
         var result = context.ResolveIncotermObligation(
-            IncotermRule.CIF,
-            InvoiceItemTypeCode.SellGoods,
+            IncotermRule.CIF, 
+            InvoiceItemTypeCode.SellGoods, 
             100m);
 
         // Assert

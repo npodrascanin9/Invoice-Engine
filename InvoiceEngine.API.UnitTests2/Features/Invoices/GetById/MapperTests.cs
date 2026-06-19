@@ -1,8 +1,8 @@
 ﻿namespace InvoiceEngine.API.UnitTests.Features.Invoices.GetById;
 
-public class GetInvoiceByIdTests
+public class GetInvoiceByIdMapperTests : BaseUnitTest
 {
-    [Fact]
+    [Test]
     public void MapItemsForClient_ShouldReturnItems()
     {
         // Arrange
@@ -33,7 +33,7 @@ public class GetInvoiceByIdTests
 
         // Act
         var result = query.MapItemsForClient(
-            InvoiceSubject.Buyer,
+            InvoiceSubject.Buyer, 
             items);
 
         // Assert
