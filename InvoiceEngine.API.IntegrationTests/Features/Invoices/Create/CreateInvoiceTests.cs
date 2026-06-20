@@ -2,9 +2,13 @@
 
 namespace InvoiceEngine.API.IntegrationTests.Features.Invoices.Create;
 
+[Collection(TestCollectionConstants.DefaultCollection)]
 public class CreateInvoiceTests :
-    BaseIntegrationTest
+    BaseIntegrationTest,
+    IAsyncLifetime
 {
+    private readonly Func<Task> _resetDatabase;
+
     private readonly Faker<CreateInvoiceCommand> _commandGenerator 
         = new Faker<CreateInvoiceCommand>()
             .CustomInstantiator(factoryMethod => new CreateInvoiceCommand(
@@ -25,10 +29,10 @@ public class CreateInvoiceTests :
             ));
 
     public CreateInvoiceTests(
-        IntegrationTestWebAppFactory factory)
-        : base(factory)
+        IntegrationTestWebAppFactory apiFactory)
+        : base(apiFactory)
     {
-
+        _resetDatabase = apiFactory.ResetDatabaseAsync;
     }
 
     [Fact]
@@ -43,8 +47,42 @@ public class CreateInvoiceTests :
         // Assert
         result.Should()
             .NotBeNull();
-        var foundInvoice = DbContext
+        result.Value.Should()
+            .NotBeNull();
+
+        int invoiceId = result.Value.Id;
+        
+        invoiceId.Should()
+            .BeGreaterThan(0);
+        
+        var foundInvoice = await DbContext
             .Invoices
-            .FirstOrDefault(x => x.Id == result.Value.Id);
+            .Include(x => x.InvoiceClients)
+            .Include(x => x.CustomIncotermObligations)
+            .Include(x => x.Items)
+            .ThenInclude(item => item.ItemObligations)
+            .FirstOrDefaultAsync(x => x.Id == invoiceId);
+        
+        foundInvoice.Should()
+            .NotBeNull();
+        foundInvoice.InvoiceClients.Should()
+            .HaveCount(2);
+        foundInvoice.CustomIncotermObligations.Should()
+            .BeNullOrEmpty();
+        foundInvoice.Items.Should()
+            .HaveCount(3);
+
+        var obligations = foundInvoice.Items
+            .SelectMany(i => i.ItemObligations)
+            .ToList();
+
+        obligations.Should()
+            .HaveCount(6);
     }
+
+    public Task InitializeAsync()
+        => Task.CompletedTask;
+
+    public Task DisposeAsync()
+        => _resetDatabase();
 }

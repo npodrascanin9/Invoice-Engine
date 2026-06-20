@@ -8,6 +8,9 @@ public class IntegrationTestWebAppFactory :
         .WithPassword("My_password_123!")
         .Build();
 
+    private DbConnection _dbConnection = default!;
+    private Respawner _respawner = default!;
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(services =>
@@ -25,9 +28,33 @@ public class IntegrationTestWebAppFactory :
         });
     }
 
-    public Task InitializeAsync()
+    public async Task ResetDatabaseAsync()
     {
-        return _dbContainer.StartAsync();
+        await _respawner.ResetAsync(_dbConnection);
+    }
+
+    public async Task InitializeAsync()
+    {
+        await _dbContainer.StartAsync();
+        _dbConnection = new SqlConnection(
+            _dbContainer.GetConnectionString());
+        await InitializeRespawner();
+    }
+
+    private async Task InitializeRespawner()
+    {
+        await _dbConnection.OpenAsync();
+
+        _respawner = await Respawner.CreateAsync(
+            _dbConnection, 
+            new RespawnerOptions
+            {
+                DbAdapter = DbAdapter.SqlServer,
+                SchemasToExclude = new[]
+                {
+                    "dbo"
+                }
+            });
     }
 
     public new Task DisposeAsync()

@@ -1,7 +1,8 @@
 ﻿namespace InvoiceEngine.API.IntegrationTests;
 
+[Collection(nameof(BaseIntegrationTest))]
 public abstract class BaseIntegrationTest : 
-    IClassFixture<IntegrationTestWebAppFactory>, 
+    IClassFixture<IntegrationTestWebAppFactory>,
     IDisposable
 {
     private readonly IServiceScope _scope;
