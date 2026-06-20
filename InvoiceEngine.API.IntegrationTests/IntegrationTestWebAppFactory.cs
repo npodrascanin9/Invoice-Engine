@@ -4,8 +4,9 @@ public class IntegrationTestWebAppFactory :
     WebApplicationFactory<Program>, 
     IAsyncLifetime
 {
-    private readonly MsSqlContainer _dbContainer = new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-latest")
-        .WithPassword("My_password_123!")
+    // run: docker pull mcr.microsoft.com/mssql/server:2019-latest
+    private readonly MsSqlContainer _dbContainer = new MsSqlBuilder("mcr.microsoft.com/mssql/server:2019-latest")
+        .WithPassword("StrongPassword123!")
         .Build();
 
     private DbConnection _dbConnection = default!;
@@ -36,9 +37,19 @@ public class IntegrationTestWebAppFactory :
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
+        await MigrateDatabase();
         _dbConnection = new SqlConnection(
             _dbContainer.GetConnectionString());
         await InitializeRespawner();
+    }
+
+    private async Task MigrateDatabase()
+    {
+        using (var scope = Services.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            await dbContext.Database.MigrateAsync();
+        }
     }
 
     private async Task InitializeRespawner()

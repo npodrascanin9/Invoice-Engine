@@ -12,7 +12,7 @@ public class CreateInvoiceTests :
     private readonly Faker<CreateInvoiceCommand> _commandGenerator 
         = new Faker<CreateInvoiceCommand>()
             .CustomInstantiator(factoryMethod => new CreateInvoiceCommand(
-                Incoterm: factoryMethod.PickRandom<IncotermRule>(),
+                Incoterm: factoryMethod.PickRandom(Enum.GetValues<IncotermRule>().Where(x => x != IncotermRule.Custom)),
                 IssuedAt: DateOnly.FromDateTime(factoryMethod.Date.Recent(5)),
                 ExpiresAt: DateOnly.FromDateTime(factoryMethod.Date.Soon(30)),
                 TransactionStartDate: DateOnly.FromDateTime(factoryMethod.Date.Recent(10)),
@@ -39,7 +39,37 @@ public class CreateInvoiceTests :
     public async Task ShouldCreateInvoice()
     {
         // Arrange
-        var command = _commandGenerator.Generate();
+        var clients = new List<Client>()
+        {
+            new()
+            {
+                Id = 0,
+                Email = "asdf@gmail.com",
+                IdentificationNumber = "Id_1",
+                IsActive = true,
+                Name = "Number 1",
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt=  DateTime.UtcNow
+            },
+            new()
+            {
+                Id = 0,
+                Email = "number2@gmail.com",
+                IdentificationNumber = "Id_2",
+                IsActive = true,
+                Name = "Number 2",
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt=  DateTime.UtcNow
+            }
+        };
+        await DbContext.Clients.AddRangeAsync(
+            clients);
+        await DbContext.SaveChangesAsync();
+
+        var command = _commandGenerator
+            .RuleFor(x => x.ClientBuyerId, clients[0].Id)
+            .RuleFor(x => x.ClientSellerId, clients[1].Id)
+            .Generate();
 
         // Act
         var result = await Sender.Send(command);

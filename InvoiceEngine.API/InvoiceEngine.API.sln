@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceEngine.API", "Invoic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceEngine.API.UnitTests", "..\InvoiceEngine.API.UnitTests\InvoiceEngine.API.UnitTests.csproj", "{AA6EE176-BEBC-403E-B7B9-ADA99CE34600}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceEngine.API.IntegrationTests", "..\InvoiceEngine.API.IntegrationTests\InvoiceEngine.API.IntegrationTests.csproj", "{8B7A9696-45D0-4B7B-B952-F56B939FFCE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AA6EE176-BEBC-403E-B7B9-ADA99CE34600}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA6EE176-BEBC-403E-B7B9-ADA99CE34600}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA6EE176-BEBC-403E-B7B9-ADA99CE34600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B7A9696-45D0-4B7B-B952-F56B939FFCE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B7A9696-45D0-4B7B-B952-F56B939FFCE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B7A9696-45D0-4B7B-B952-F56B939FFCE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B7A9696-45D0-4B7B-B952-F56B939FFCE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
