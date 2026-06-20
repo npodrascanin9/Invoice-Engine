@@ -50,10 +50,10 @@ public class IntegrationTestWebAppFactory :
             new RespawnerOptions
             {
                 DbAdapter = DbAdapter.SqlServer,
-                SchemasToExclude = new[]
-                {
-                    "dbo"
-                }
+                TablesToIgnore =
+                [
+                    "__EFMigrationsHistory"
+                ]
             });
     }
 
