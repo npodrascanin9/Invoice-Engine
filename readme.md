@@ -8,11 +8,8 @@
 This mini project belongs to the domain of transport and freight forwarding, specifically invoice management.  
 When creating an invoice, the buyer and the seller as contractual parties agree on a **parity (obligation)** — who owes what percentage of the costs.
 
-Examples of parities include:
-- EXW → Buyer pays 100% of the goods, Seller 0%.
-- FOB → Buyer and Seller share transport costs.
-- CIF → Seller covers insurance costs.
-- Custom → Buyer and Seller define obligations themselves.
+Incoterm obligation rules table:
+<img width="1382" height="307" alt="image" src="https://github.com/user-attachments/assets/defb45f7-1a93-4a2f-ac45-6cde0728127f" />
 
 **Note:** In some cases, the buyer and seller can choose a **Custom** option, filling out an additional form to decide who owes what.
 
