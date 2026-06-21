@@ -6,7 +6,7 @@
 
 ## 1) What's the business problem?
 This mini project belongs to the domain of transport and freight forwarding, specifically invoice management.  
-When creating an invoice, the buyer and the seller as contractual parties agree on a **parity (obligation)** — who owes what percentage of the costs.
+When creating an invoice, the buyer and the seller as contractual parties agree on a **incoterm (obligation)** — who owes what percentage of the costs.
 
 Incoterm obligation rules table:
 <img width="1382" height="307" alt="image" src="https://github.com/user-attachments/assets/defb45f7-1a93-4a2f-ac45-6cde0728127f" />
@@ -19,10 +19,10 @@ Incoterm obligation rules table:
 
 ## 2) What's the solution to the problem?
 The solution is to follow **SOLID principles** and apply the **Strategy pattern** instead of writing endless `if` statements.  
-Each parity is implemented as a separate strategy, which allows:
+Each incoterm is implemented as a separate strategy, which allows:
 
 - Easier unit testing for each strategy.
-- Simple extension when new parities are introduced.
+- Simple extension when new incoterms are introduced.
 - Clean and maintainable code.
 
 **Database model:**
@@ -35,7 +35,7 @@ Testing is done via the `GetById` endpoint, which clearly shows the distribution
 ---
 
 ## 3) What if the client has new requirements?
-Example: the client requests a new parity **JIN**.  
+Example: the client requests a new incoterm **JIN**.  
 - Buyer has the obligation to pay X% of the debt.  
 - Seller covers the remaining costs.
 
