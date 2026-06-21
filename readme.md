@@ -8,8 +8,9 @@
 This mini project belongs to the domain of transport and freight forwarding, specifically invoice management.  
 When creating an invoice, the buyer and the seller as contractual parties agree on a **incoterm (obligation)** — who owes what percentage of the costs.
 
-Incoterm obligation rules table:
-<img width="1382" height="307" alt="image" src="https://github.com/user-attachments/assets/defb45f7-1a93-4a2f-ac45-6cde0728127f" />
+**Incoterm obligation rules table:**
+<img width="1247" height="277" alt="image" src="https://github.com/user-attachments/assets/ba6051c8-e863-4a10-ac7e-96703562d4e1" />
+
 
 **Note:** In some cases, the buyer and seller can choose a **Custom** option, filling out an additional form to decide who owes what.
 
