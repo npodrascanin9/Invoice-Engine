@@ -26,11 +26,11 @@ Each incoterm is implemented as a separate strategy, which allows:
 - Clean and maintainable code.
 
 **Database model:**
-- `InvoiceClients` → each client has a role (buyer/seller).
-- `RoleFrom` / `RoleTo` → defines who owes whom and in what percentage.
-- `Invoice` → connects clients and their obligations.
+<img width="1140" height="758" alt="image" src="https://github.com/user-attachments/assets/e94a73a1-59ec-4895-8341-f8bdff09fdec" />
 
-Testing is done via the `GetById` endpoint, which clearly shows the distribution of obligations within an invoice.
+There are two tables that can tell... 
+- InvoiceClients table, the logic is that one client can have one role (Seller or Buyer).
+- InvoiceItemObligations => tells us who is paying amount
 
 ---
 
