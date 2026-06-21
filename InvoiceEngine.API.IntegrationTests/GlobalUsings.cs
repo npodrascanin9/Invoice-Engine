@@ -14,3 +14,5 @@ global using MediatR;
 global using InvoiceEngine.API.Database.Entities;
 global using InvoiceEngine.API.Enums;
 global using InvoiceEngine.API.Database;
+
+global using InvoiceEngine.API.Features.Invoices.Shared;
