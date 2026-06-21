@@ -2,7 +2,7 @@
 - MS SQL/.NET 8
 - vertical-slice architecture, tests, design patterns
 
-# InvoiceEngine
+# Invoice Engine
 
 ## 1) What's the business problem?
 This mini project belongs to the domain of transport and freight forwarding, specifically invoice management.  
