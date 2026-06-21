@@ -1,6 +1,6 @@
 # Mini API project
 - MS SQL/.NET 8
-- Tests, design patterns, vertical-slice architecture
+- vertical-slice architecture, tests, design patterns
 
 ## What's the business problem?
 - asdf
