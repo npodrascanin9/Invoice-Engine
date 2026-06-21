@@ -28,6 +28,20 @@ public class CreateInvoiceTests :
                 CustomIncotermRules: null
             ));
 
+    private readonly Faker<Client> _clientGenerator
+        = new Faker<Client>()
+            .CustomInstantiator(f => new Client
+            {
+                Id = 0,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                IsActive = true,
+                Name = f.Company.CompanyName(),
+                Email = f.Person.Email,
+                IdentificationNumber = f.Random.Replace("##########")
+            });
+
+
     public CreateInvoiceTests(
         IntegrationTestWebAppFactory apiFactory)
         : base(apiFactory)
@@ -39,31 +53,8 @@ public class CreateInvoiceTests :
     public async Task ShouldCreateInvoice()
     {
         // Arrange
-        var clients = new List<Client>()
-        {
-            new()
-            {
-                Id = 0,
-                Email = "asdf@gmail.com",
-                IdentificationNumber = "Id_1",
-                IsActive = true,
-                Name = "Number 1",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt=  DateTime.UtcNow
-            },
-            new()
-            {
-                Id = 0,
-                Email = "number2@gmail.com",
-                IdentificationNumber = "Id_2",
-                IsActive = true,
-                Name = "Number 2",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt=  DateTime.UtcNow
-            }
-        };
-        await DbContext.Clients.AddRangeAsync(
-            clients);
+        var clients = _clientGenerator.Generate(2);
+        await DbContext.Clients.AddRangeAsync(clients);
         await DbContext.SaveChangesAsync();
 
         var command = _commandGenerator
