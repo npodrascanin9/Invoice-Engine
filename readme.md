@@ -13,7 +13,7 @@ When creating an invoice, the buyer and the seller as contractual parties agree 
 
 **Example (case 1, CIF):**
 - Buyer pays for goods
-- Seller coverts transport and insurance services.
+- Seller covers transport and insurance services.
 
 **Example (case 2, EXW):**
 - Buyers pays everything (goods, transport and insurance)
