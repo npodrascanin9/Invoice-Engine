@@ -6,11 +6,18 @@
 
 ## 1) What's the business problem?
 This mini project belongs to the domain of transport and freight forwarding, specifically invoice management.  
-When creating an invoice, the buyer and the seller as contractual parties agree on a **incoterm (obligation)** — who owes what percentage of the costs.
+When creating an invoice, the buyer and the seller as contractual parties agree on a **incoterm (obligation)** — who owes what percentage of the costs (invoice item types, such as: goods, transportation and insurance).
 
 **Incoterm obligation rules table:**
 <img width="1247" height="277" alt="image" src="https://github.com/user-attachments/assets/ba6051c8-e863-4a10-ac7e-96703562d4e1" />
 
+**Example (case 1, CIF):**
+- Buyer pays for goods
+- Seller coverts transport and insurance services.
+
+**Example (case 2, EXW):**
+- Buyers pays everything (goods, transport and insurance)
+- Seller pays nothing
 
 **Note:** In some cases, the buyer and seller can choose a **Custom** option, filling out an additional form to decide who owes what.
 
