@@ -37,8 +37,8 @@ Each incoterm is implemented as a separate strategy, which allows:
 <img width="1140" height="758" alt="image" src="https://github.com/user-attachments/assets/e94a73a1-59ec-4895-8341-f8bdff09fdec" />
 
 **Tables:**
-****1) Clients**** - Stores company details (name, identification number, email, isActive)
-****2) InvoiceClients**** - Composite key table linking invoices to clients. Each client has a single role (Buyer/Seller) per invoice
+- ***Clients*** - Stores company details (name, identification number, email, isActive)
+- ***InvoiceClients*** - Composite key table linking invoices to clients. Each client has a single role (Buyer/Seller) per invoice
 ****3) Invoices**** - Contains invoice metadata, including IncotermCode column which is the main focus in this mini project
 ****4) InvoiceItems**** - Holds items with type (Transportation, Goods, Insurance), amount, and description 
 ****5) InvoiceItemObligations**** -  Composite key table defining obligations (who owes whom and how much)
