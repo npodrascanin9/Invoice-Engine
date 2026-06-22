@@ -42,7 +42,7 @@ Each incoterm is implemented as a separate strategy, which allows:
 - ***Invoices*** - Contains invoice metadata, including IncotermCode column which is the main focus in this mini project
 - ***InvoiceItems*** - Holds items with type (Transportation, Goods, Insurance), amount, and description 
 - ***InvoiceItemObligations*** -  Composite key table defining obligations (who owes whom and how much)
-****6) CustomIncotermObligations**** - Composite key table for custom incoterm agreements, ensuring obligations are recorded for future dispute resolution
+- ***CustomIncotermObligations*** - Composite key table for custom incoterm agreements, ensuring obligations are recorded for future dispute resolution
 
 ---
 
