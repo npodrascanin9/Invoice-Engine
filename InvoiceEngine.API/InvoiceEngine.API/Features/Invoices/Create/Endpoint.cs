@@ -18,7 +18,8 @@ public class CreateInvoiceEndpoint :
                     request.TransactionEndDate,
                     request.ClientSellerId,
                     request.ClientBuyerId,
-                    request.Items);
+                    request.Items,
+                    request.CustomIncotermRules);
 
                 var result = await sender.Send(command);
 
