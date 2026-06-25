@@ -7,7 +7,6 @@ public static class CreateInvoiceMapper
     {
         bool isCustomIncoterm = command.Incoterm == IncotermRule.Custom;
         bool hasCustomDictionary = command.CustomIncotermRules is not null;
-        // return isCustomIncoterm && hasCustomDictionary;
-        return true;
+        return isCustomIncoterm && hasCustomDictionary;
     }
 }
