@@ -44,5 +44,4 @@ jobs:
 
       - name: Publish API (optional)
         if: github.ref == 'refs/heads/main'
-        working-directory: InvoiceEngine.API
-        run: dotnet publish InvoiceEngine.API.csproj -c Release -o ./publish
+        run: dotnet publish InvoiceEngine.API/InvoiceEngine.API/InvoiceEngine.API.csproj -c Release -o ./publish
