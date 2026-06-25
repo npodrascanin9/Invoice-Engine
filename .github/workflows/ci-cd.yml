@@ -36,12 +36,11 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Run unit tests
-        working-directory: InvoiceEngine.API
-        run: dotnet test ./tests/UnitTests/UnitTests.csproj --configuration Release --no-build
+        run: dotnet test InvoiceEngine.API.UnitTests/InvoiceEngine.API.UnitTests.csproj --configuration Release --no-build
 
       - name: Run integration tests
-        working-directory: InvoiceEngine.API
-        run: dotnet test ./tests/IntegrationTests/IntegrationTests.csproj --configuration Release --no-build
+        run: dotnet test InvoiceEngine.API.IntegrationTests/InvoiceEngine.API.IntegrationTests.csproj --configuration Release --no-build
+
 
       - name: Publish API (optional)
         if: github.ref == 'refs/heads/main'
