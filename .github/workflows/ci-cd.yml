@@ -27,15 +27,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Restore dependencies
-        run: dotnet restore InvoiceEngine.sln
+      - name: Restore dependencies (working dir)
+        working-directory: InvoiceEngine.API
+        run: dotnet restore
 
       - name: Build solution
-        run: dotnet build InvoiceEngine.sln --configuration Release --no-restore
+        working-directory: InvoiceEngine.API
+        run: dotnet build --configuration Release --no-restore
 
-      - name: Run tests
-        run: dotnet test InvoiceEngine.sln --configuration Release --no-build --logger "trx;LogFileName=test-results.trx"
+      - name: Run unit tests
+        working-directory: InvoiceEngine.API
+        run: dotnet test ./tests/UnitTests/UnitTests.csproj --configuration Release --no-build
 
-      - name: Publish (optional)
+      - name: Run integration tests
+        working-directory: InvoiceEngine.API
+        run: dotnet test ./tests/IntegrationTests/IntegrationTests.csproj --configuration Release --no-build
+
+      - name: Publish API (optional)
         if: github.ref == 'refs/heads/main'
-        run: dotnet publish src/InvoiceEngine/InvoiceEngine.API/InvoiceEngine.API.csproj -c Release -o ./publish
+        working-directory: InvoiceEngine.API
+        run: dotnet publish src/InvoiceEngine.API/InvoiceEngine.API.csproj -c Release -o ./publish
