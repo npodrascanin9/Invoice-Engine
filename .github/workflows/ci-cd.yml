@@ -1,0 +1,41 @@
+name: .NET CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj','**/*.sln') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore InvoiceEngine.sln
+
+      - name: Build solution
+        run: dotnet build InvoiceEngine.sln --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test InvoiceEngine.sln --configuration Release --no-build --logger "trx;LogFileName=test-results.trx"
+
+      - name: Publish (optional)
+        if: github.ref == 'refs/heads/main'
+        run: dotnet publish src/InvoiceEngine/InvoiceEngine.API/InvoiceEngine.API.csproj -c Release -o ./publish
