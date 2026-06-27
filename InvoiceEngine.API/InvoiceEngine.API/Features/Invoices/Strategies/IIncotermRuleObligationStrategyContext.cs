@@ -6,7 +6,7 @@ public interface IIncotermRuleObligationStrategyContext
         IncotermRule incotermRule,
         InvoiceItemTypeCode invoiceItemType,
         decimal amount,
-        Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject From, InvoiceSubject to), decimal>> customIncotermRules = null);
+        Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject From, InvoiceSubject To), decimal>> customIncotermRules = null);
 }
 
 public class IncotermRuleObligationStrategyContext(
