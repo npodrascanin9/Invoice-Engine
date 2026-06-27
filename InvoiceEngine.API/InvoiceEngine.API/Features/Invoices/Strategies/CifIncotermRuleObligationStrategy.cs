@@ -6,7 +6,7 @@ public class CifIncotermRuleObligationStrategy :
     public IncotermRule IncotermRule
         => IncotermRule.CIF;
 
-    private Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject From, InvoiceSubject to), decimal>> _map =
+    private Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject From, InvoiceSubject To), decimal>> _map =
         new()
         {
             {

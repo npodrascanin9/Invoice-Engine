@@ -17,7 +17,7 @@ public class IncotermRuleObligationStrategyContext(
         IncotermRule incotermRule,
         InvoiceItemTypeCode invoiceItemType,
         decimal amount,
-        Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject From, InvoiceSubject to), decimal>> customIncotermRules = null)
+        Dictionary<InvoiceItemTypeCode, Dictionary<(InvoiceSubject From, InvoiceSubject To), decimal>> customIncotermRules = null)
     {
         var dictionary = strategies.ToDictionary(
             key => key.IncotermRule,
