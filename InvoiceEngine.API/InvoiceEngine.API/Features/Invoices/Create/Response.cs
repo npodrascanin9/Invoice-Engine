@@ -1,4 +1,4 @@
 ﻿namespace InvoiceEngine.API.Features.Invoices.Create;
 
-public record CreateInvoiceResponse(
+public sealed record CreateInvoiceResponse(
     int Id);

@@ -1,6 +1,6 @@
 ﻿namespace InvoiceEngine.API.Features.Invoices.GetById;
 
-public record GetInvoiceByIdResponse(
+public sealed record GetInvoiceByIdResponse(
     int Id,
     IncotermRule IncotermRuleCode,
     string IncotermRule,
