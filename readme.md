@@ -15,7 +15,8 @@ When creating an invoice, the buyer and the seller as contractual parties agree 
 | | EXW (Ex-works) | CIF (Cost, Insurance, Freight) | FOB (Free On Board) |
 |---|---|---|---|
 | Sell of goods | Buyer ows 100%, <br> Seller ows 0% | Buyer ows 100%, <br> Seller ows 0% | Buyer ows 100%, <br> seller ows 0% |
-
+| Transportation | Buyer ows 100% <br> Seller ows 0% | Buyer ows 0% <br> Seller ows 100% | Buyer ows 50% <br> Seller ows 50% |
+| Insurance | Buyer ows 100% <br> Seller ows 0% | Buyer ows 0% <br> Seller ows 100% | Buyer ows 50% <br> Seller ows 50% |
 
 **Example (case 1, CIF):**
 - Buyer pays for goods
