@@ -9,14 +9,11 @@ This mini project belongs to the domain of transport and freight forwarding, spe
 When creating an invoice, the buyer and the seller as contractual parties agree on a **incoterm (obligation)** — who owes what percentage of the costs (invoice item types, such as: goods, transportation and insurance).
 
 **Incoterm obligation rules table:**
-<img width="1247" height="277" alt="image" src="https://github.com/user-attachments/assets/ba6051c8-e863-4a10-ac7e-96703562d4e1" />
-
-**Incoterm obligation rules:**
 | | EXW (Ex-works) | CIF (Cost, Insurance, Freight) | FOB (Free On Board) |
 |---|---|---|---|
-| Sell of goods | Buyer ows 100%, <br> Seller ows 0% | Buyer ows 100%, <br> Seller ows 0% | Buyer ows 100%, <br> seller ows 0% |
-| Transportation | Buyer ows 100% <br> Seller ows 0% | Buyer ows 0% <br> Seller ows 100% | Buyer ows 50% <br> Seller ows 50% |
-| Insurance | Buyer ows 100% <br> Seller ows 0% | Buyer ows 0% <br> Seller ows 100% | Buyer ows 50% <br> Seller ows 50% |
+| Sell of goods | Buyer owes 100% <br> Seller owes 0% | Buyer owes 100% <br> Seller owes 0% | Buyer owes 100%, <br> seller owes 0% |
+| Transportation | Buyer owes 100% <br> Seller owes 0% | Buyer owes 0% <br> Seller owes 100% | Buyer owes 50% <br> Seller owes 50% |
+| Insurance | Buyer owes 100% <br> Seller owes 0% | Buyer owes 0% <br> Seller owes 100% | Buyer owes 50% <br> Seller owes 50% |
 
 **Example (case 1, CIF):**
 - Buyer pays for goods
