@@ -11,7 +11,7 @@ When creating an invoice, the buyer and the seller as contractual parties agree 
 **Incoterm obligation rules table:**
 | | EXW (Ex-works) | CIF (Cost, Insurance, Freight) | FOB (Free On Board) |
 |---|---|---|---|
-| Sell of goods | Buyer owes 100% <br> Seller owes 0% | Buyer owes 100% <br> Seller owes 0% | Buyer owes 100%, <br> seller owes 0% |
+| Sell of goods | Buyer owes 100% <br> Seller owes 0% | Buyer owes 100% <br> Seller owes 0% | Buyer owes 100% <br> Seller owes 0% |
 | Transportation | Buyer owes 100% <br> Seller owes 0% | Buyer owes 0% <br> Seller owes 100% | Buyer owes 50% <br> Seller owes 50% |
 | Insurance | Buyer owes 100% <br> Seller owes 0% | Buyer owes 0% <br> Seller owes 100% | Buyer owes 50% <br> Seller owes 50% |
 
