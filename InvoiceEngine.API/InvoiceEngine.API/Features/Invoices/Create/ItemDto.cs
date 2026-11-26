@@ -1,5 +1,5 @@
 ﻿namespace InvoiceEngine.API.Features.Invoices.Create;
 
-public record CreateInvoiceItemRequest(
+public record CreateInvoiceItemDto(
     string? Description,
     decimal Amount);

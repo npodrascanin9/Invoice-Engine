@@ -10,7 +10,7 @@ internal sealed class CreateInvoiceCommandHandler(
         CancellationToken cancellationToken)
     {
         if (!await context.Clients.AnyAsync(
-            x => x.Id == command.ClientSellerId, 
+            x => x.Id == command.ClientSellerId,
             cancellationToken))
         {
             return Result.Failure<CreateInvoiceResponse>(
@@ -18,97 +18,69 @@ internal sealed class CreateInvoiceCommandHandler(
         }
 
         if (!await context.Clients.AnyAsync(
-            x => x.Id == command.ClientBuyerId, 
+            x => x.Id == command.ClientBuyerId,
             cancellationToken))
         {
             return Result.Failure<CreateInvoiceResponse>(
                 InvoiceErrors.ClientBuyerNotFound(command.ClientBuyerId));
         }
 
-        Invoice invoiceEntity = new()
-        {
-            Id = default,
-            IncotermCode = command.Incoterm,
-            StatusCode = InvoiceStatus.Pending,
-            ExpiresAt = command.ExpiresAt,
-            IssuedAt = command.IssuedAt,
-            TransactionStartDate = command.TransactionStartDate,
-            TransactionEndDate = command.TransactionEndDate,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
+        Invoice invoiceEntity = command.ToInvoice();
+        
+        InitializeCustomObligationsIfHasPermission(
+            command, 
+            invoiceEntity);
 
-        if (command.CanHaveCustomIncotermObligations())
-        {
-            var customObligations = command
-                .CustomIncotermRules
-                .SelectMany(outerPairs =>
-                    outerPairs.Value.Select(
-                        innerPairs => new InvoiceCustomIncotermObligation
-                        {
-                            ItemTypeCode = outerPairs.Key,            
-                            FromSubjectCode = innerPairs.Key.From,    
-                            ToSubjectCode = innerPairs.Key.To,        
-                            PercentageAmount = innerPairs.Value
-                        })).ToList();
+        invoiceEntity
+            .InvoiceClients
+            .AddRange(command.ToInvoiceClients());
 
-            invoiceEntity.CustomIncotermObligations.AddRange(customObligations);
-        }
+        invoiceEntity
+            .Items
+            .AddRange(command.ToInvoiceItems());
 
-        invoiceEntity.InvoiceClients.AddRange(
-            new List<InvoiceClient>()
-            {
-                new()
-                {
-                    ClientId = command.ClientBuyerId,
-                    SubjectCode = InvoiceSubject.Buyer
-                },
-                new()
-                {
-                    ClientId = command.ClientSellerId,
-                    SubjectCode = InvoiceSubject.Seller
-                }
-            });
+        InitializeItemObligations(
+            command,
+            invoiceEntity);
 
-        invoiceEntity.Items.AddRange(
-            command.Items
-                .Where(x => x.Value is not null && x.Value.Amount > 0)
-                .Select(x => new InvoiceItem()
-                {
-                    Id = 0,
-                    ItemTypeCode = x.Key,
-                    Description = x.Value.Description,
-                    Amount = x.Value.Amount
-                }).ToList());
-
-        foreach (var invoiceItem in invoiceEntity.Items)
-            InitializeItem(command, invoiceItem);
-
-        await context.Invoices.AddAsync(invoiceEntity, cancellationToken);
+        await context
+            .Invoices
+            .AddAsync(invoiceEntity, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
 
         return Result.Success<CreateInvoiceResponse>(
             new(invoiceEntity.Id));
     }
 
-    private void InitializeItem(
+    private static void InitializeCustomObligationsIfHasPermission(
+        CreateInvoiceCommand command, 
+        Invoice invoiceEntity)
+    {
+        if (command.CanHaveCustomIncotermObligations())
+        {
+            invoiceEntity.CustomIncotermObligations.AddRange(
+                command.ToCustomIncotermObligations());
+        }
+    }
+
+    private void InitializeItemObligations(
+        CreateInvoiceCommand command, 
+        Invoice invoiceEntity)
+    {
+        foreach (var invoiceItem in invoiceEntity.Items)
+            InitializeItemObligation(command, invoiceItem);
+    }
+
+    private void InitializeItemObligation(
         CreateInvoiceCommand command, 
         InvoiceItem invoiceItem)
     {
-        var dictionary = obligationStrategyContext.ResolveIncotermObligation(
+        var incotermPairs = obligationStrategyContext.ResolveIncotermObligation(
             command.Incoterm,
             invoiceItem.ItemTypeCode,
             invoiceItem.Amount);
 
-        invoiceItem
-            .ItemObligations
-            .AddRange(
-                dictionary.Select(
-                    x => new InvoiceItemObligation
-                    {
-                        FromClientSubjectCode = x.Key.From,
-                        ToClientSubjectCode = x.Key.To,
-                        OwingAmount = x.Value
-                    }).ToList());
+        invoiceItem.ItemObligations.AddRange(
+            command.ToItemObligations(incotermPairs));
     }
 }

@@ -10,6 +10,7 @@ internal sealed class GetInvoiceByIdQueryHandler(
     {
         var invoice = await context
             .Invoices
+            .AsNoTracking()
             .Include(x => x.InvoiceClients)
             .ThenInclude(invoiceClient => invoiceClient.Client)
             .Include(x => x.Items)

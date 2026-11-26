@@ -16,9 +16,9 @@ public class CreateInvoiceMapperTests
             TransactionEndDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ClientSellerId: 1,
             ClientBuyerId: 2,
-            Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemRequest>
+            Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemDto>
             {
-                [InvoiceItemTypeCode.SellGoods] = new CreateInvoiceItemRequest(
+                [InvoiceItemTypeCode.SellGoods] = new CreateInvoiceItemDto(
                     Amount: 100,
                     Description: "Valid")
             },
@@ -51,9 +51,9 @@ public class CreateInvoiceMapperTests
             TransactionEndDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ClientSellerId: 1,
             ClientBuyerId: 2,
-            Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemRequest>
+            Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemDto>
             {
-                [InvoiceItemTypeCode.SellGoods] = new CreateInvoiceItemRequest(
+                [InvoiceItemTypeCode.SellGoods] = new CreateInvoiceItemDto(
                     Amount: 100,
                     Description: "Valid")
             },
@@ -80,9 +80,9 @@ public class CreateInvoiceMapperTests
             TransactionEndDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ClientSellerId: 1,
             ClientBuyerId: 2,
-            Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemRequest>
+            Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemDto>
             {
-                [InvoiceItemTypeCode.SellGoods] = new CreateInvoiceItemRequest(
+                [InvoiceItemTypeCode.SellGoods] = new CreateInvoiceItemDto(
                     Amount: 100,
                     Description: "Valid")
             },

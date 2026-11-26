@@ -20,11 +20,11 @@ public class GetInvoiceByIdTests :
                 TransactionEndDate: DateOnly.FromDateTime(factoryMethod.Date.Soon(20)),
                 ClientSellerId: 1,
                 ClientBuyerId: 2,
-                Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemRequest>
+                Items: new Dictionary<InvoiceItemTypeCode, CreateInvoiceItemDto>
                 {
-                    { InvoiceItemTypeCode.SellGoods, new CreateInvoiceItemRequest(factoryMethod.Commerce.ProductName(), factoryMethod.Random.Decimal(100, 2000)) },
-                    { InvoiceItemTypeCode.Transport, new CreateInvoiceItemRequest("Transport service", factoryMethod.Random.Decimal(50, 500)) },
-                    { InvoiceItemTypeCode.Insurance, new CreateInvoiceItemRequest("Insurance policy", factoryMethod.Random.Decimal(20, 300)) }
+                    { InvoiceItemTypeCode.SellGoods, new CreateInvoiceItemDto(factoryMethod.Commerce.ProductName(), factoryMethod.Random.Decimal(100, 2000)) },
+                    { InvoiceItemTypeCode.Transport, new CreateInvoiceItemDto("Transport service", factoryMethod.Random.Decimal(50, 500)) },
+                    { InvoiceItemTypeCode.Insurance, new CreateInvoiceItemDto("Insurance policy", factoryMethod.Random.Decimal(20, 300)) }
                 },
                 CustomIncotermRules: null
             ));
