@@ -27,7 +27,7 @@ internal sealed class CreateInvoiceCommandHandler(
 
         Invoice invoiceEntity = command.ToInvoice();
         
-        InitializeCustomObligationsIfHasPermission(
+        InitializeCustomObligationsIfApplicable(
             command, 
             invoiceEntity);
 
@@ -52,7 +52,7 @@ internal sealed class CreateInvoiceCommandHandler(
             new(invoiceEntity.Id));
     }
 
-    private static void InitializeCustomObligationsIfHasPermission(
+    private static void InitializeCustomObligationsIfApplicable(
         CreateInvoiceCommand command, 
         Invoice invoiceEntity)
     {

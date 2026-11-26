@@ -10,16 +10,7 @@ public class CreateInvoiceEndpoint :
             ISender sender,
             CreateInvoiceRequest request) =>
             {
-                var command = new CreateInvoiceCommand(
-                    request.Incoterm,
-                    request.IssuedAt,
-                    request.ExpiresAt,
-                    request.TransactionStartDate,
-                    request.TransactionEndDate,
-                    request.ClientSellerId,
-                    request.ClientBuyerId,
-                    request.Items,
-                    request.CustomIncotermRules);
+                var command = request.ToCommand();
 
                 var result = await sender.Send(command);
 

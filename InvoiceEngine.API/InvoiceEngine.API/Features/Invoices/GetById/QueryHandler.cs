@@ -22,7 +22,7 @@ internal sealed class GetInvoiceByIdQueryHandler(
             return Result.Failure<GetInvoiceByIdResponse>(
                 InvoiceErrors.NotFound(query.Id));
         }
-
+        
         var clients = invoice.InvoiceClients
             .ToDictionary(
                 invoiceClient => invoiceClient.SubjectCode,
@@ -31,21 +31,6 @@ internal sealed class GetInvoiceByIdQueryHandler(
                     Name: invoiceClient.Client.Name,
                     Items: query.MapItemsForClient(invoiceClient.SubjectCode, invoice.Items)));
 
-        var response = new GetInvoiceByIdResponse(
-            Id: invoice.Id,
-            IncotermRuleCode: invoice.IncotermCode,
-            IncotermRule: invoice.IncotermCode.ToString(),
-            StatusCode: invoice.StatusCode,
-            Status: invoice.StatusCode.ToString(),
-            IssuedAt: invoice.IssuedAt,
-            ExpiresAt: invoice.ExpiresAt,
-            TransactionStartDate: invoice.TransactionStartDate,
-            TransactionEndDate: invoice.TransactionEndDate,
-            CreatedAt: invoice.CreatedAt,
-            UpdatedAt: invoice.UpdatedAt,
-            Clients: clients
-        );
-
-        return Result.Success(response);
+        return Result.Success(query.ToResponse(invoice, clients));
     }
 }
